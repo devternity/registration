@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+- '7'
+branches:
+  only:
+  - master
+before_script:
+- git config --global user.email "travis@devternity.com"
+- git config --global user.name "Travis"
+- npm install -g gulp-cli
+script:
+- gulp compile
+- gulp deploy
