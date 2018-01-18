@@ -25,7 +25,7 @@ app.controller('Attendify', function($http, $rootScope, Event) {
 					.filter(p => { return p.event == "workshops" })[0]
 					.schedule
 					.filter(w => { return !w.sold_out })
-					.concat({})
+                    .concat({ title: "No Workshop Pass", product: false })
 			this.workshops = workshopsOnSale;
 			this.event = latestEvent;			
 		})
@@ -46,6 +46,11 @@ app.controller('Attendify', function($http, $rootScope, Event) {
 	});
 
 	$rootScope.$on("AttendeeAdded", (event, attendee) => {
+        if (attendee.workshop) {
+            var workshopTitle = _.find(this.workshops, {product:attendee.workshop}).title;    
+            attendee['workshopTitle'] = workshopTitle;
+        }
+        
     	self.registration.attendees.push(attendee);
     	self.recalculate();
     	notification.show("✅ Attendee has been added")
@@ -150,9 +155,10 @@ app.controller('Attendify', function($http, $rootScope, Event) {
     			slackTickets.push("Main Day");
     		}
     		if (attendee.workshop) {
-    			var workshop = _.find(this.workshops, {title:attendee.workshop}).product;
-    			tickets.push(workshop);
-				slackTickets.push(attendee.workshop);   			
+                var workshopCode = attendee.workshop;
+    			var workshopTitle = attendee.workshopTitle;
+    			tickets.push(workshopCode);
+				slackTickets.push(workshopTitle);
     		}
     		var firebaseAttendee = {
     			name: attendee.name,

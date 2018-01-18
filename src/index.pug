@@ -44,7 +44,7 @@ html.no-js(lang='', ng-app='app')
                         | After the payment, tickets will be sent to your email.
             .mdl-card__supporting-text
               div(ng-show="main.step == 'BILLING'")
-                form(action='#', name='billingForm', novalidate='')
+                form(name='billingForm', novalidate='')
                   h4 Provide billing information
                   .billingSwitch
                     label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect(for='companyPayment')
@@ -81,7 +81,7 @@ html.no-js(lang='', ng-app='app')
                     | Tickets 
                     i.material-icons 
               div(ng-show="main.step == 'TICKETS'" ng-controller="AttendeeCtrl as attendee")
-                form(action='#', name='ticketsForm', novalidate='')
+                form(name='ticketsForm', novalidate='')
                   h4 Provide attendee information
                   .mdl-grid.editor
                     .mdl-cell.mdl-cell--3-col.mdl-cell--middle
@@ -97,13 +97,10 @@ html.no-js(lang='', ng-app='app')
                         input#editMainDay.mdl-checkbox__input(type='checkbox', ng-model='attendee.attendMain', ng-change='attendee.onChange()')
                         span.mdl-checkbox__label Main Day Pass
                     .mdl-cell.mdl-cell--3-col.mdl-cell--middle
-                      .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label.getmdl-select.getmdl-select__fix-height.getmdl-select__fullwidth
-                        input#selectWorkshop.mdl-textfield__input(type='text', ng-model='attendee.workshop', readonly='', tabindex='-1', ng-change='attendee.onChange()')
-                        label(for='selectWorkshop')
-                          i.mdl-icon-toggle__label.material-icons keyboard_arrow_down
-                        label.mdl-textfield__label(for='selectWorkshop') Workshop
-                        ul.mdl-menu.mdl-menu--bottom-left.mdl-js-menu(for='selectWorkshop')
-                          li.mdl-menu__item(ng-repeat='workshop in main.workshops', data-val='{{main.workshop.product}}') {{workshop.title}}
+                      div.workshop(ng-repeat='workshop in main.workshops')
+                        label.mdl-radio.mdl-js-radio.mdl-js-ripple-effect(for='{{workshop.product}}')
+                          input.mdl-radio__button(id='{{workshop.product}}' ng-value="workshop.product" type='radio' name="workshops" ng-model='attendee.workshop' ng-change='attendee.onChange()')
+                          span.mdl-radio__label {{workshop.title | truncate:21}}                     
                   .mdl-card__actions
                     button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--colored(ng-disabled='attendee.addDisabled', ng-click='attendee.add()')
                       | Add
@@ -119,13 +116,13 @@ html.no-js(lang='', ng-app='app')
                           br
                         span(ng-show='attendee.workshop')
                           i.material-icons 
-                          |  {{attendee.workshop | truncate:35}}
+                          |  {{attendee.workshopTitle | truncate:35}}
                       span(ng-show='attendee.attendMain && !attendee.workshop', style='color:red')
                         i.material-icons 
-                        |  No workshop
+                        |  No Workshop Pass
                       span(ng-show='attendee.workshop && !attendee.attendMain', style='color:red')
                         i.material-icons 
-                        |  No Main Day
+                        |  No Main Day Pass
                     .mdl-cell.mdl-cell--2-col.mdl-cell--12-col-phone.mdl-cell--middle.mdl-cell--right
                       | € 
                       span(ng-class='{strike:attendee.discount}') {{attendee.cost}}

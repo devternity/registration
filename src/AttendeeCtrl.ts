@@ -40,13 +40,22 @@ export class AttendeeCtrl {
 			var element = document.querySelector(".mdl-checkbox-main-day");
 			$(element).addClass('is-checked')
 		}
+
+		if (!this.workshop) {
+			let elements = document.querySelectorAll(".workshop .mdl-radio");
+			for (var i = 0; i < elements.length; i++) {
+   				$(elements[i]).removeClass('is-checked')
+			}			
+			var element = document.querySelector(".workshop .mdl-radio[for='false']");
+			$(element).addClass('is-checked')			
+		}
 	}
 
 	reset() {
 		this.attendMain = false
 		this.name = ''
 		this.email = ''
-		this.workshop = ''
+		this.workshop = false
 	}
 
 }
