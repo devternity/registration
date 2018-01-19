@@ -8,6 +8,7 @@ let concat = require("gulp-concat")
 let connect = require("gulp-connect")
 let stylus = require("gulp-stylus")
 let deploy = require("gulp-gh-pages")
+let inline = require('gulp-inline-source')
 let source = require("vinyl-source-stream")
 let browserify = require("browserify")
 
@@ -20,7 +21,7 @@ export class Gulpfile {
 		return gulp
 			.src(["./src/**.pug"])
 			.pipe(pug())
-      // .pipe(inject(sources))
+      .pipe(inline({rootpath: './dist', compress: false}))
 			.pipe(gulp.dest("./dist"))
   }    
 
@@ -36,8 +37,7 @@ export class Gulpfile {
   vendorStyles() {
     return gulp
       .src([
-        "./node_modules/material-design-lite/material.min.css", 
-        "./node_modules/getmdl-select/getmdl-select.min.css"
+        "./node_modules/material-design-lite/material.min.css"
        ])
       .pipe(concat("vendor.css"))
       .pipe(gulp.dest("dist"))
@@ -57,7 +57,7 @@ export class Gulpfile {
     return gulp
       .src([
         "./node_modules/material-design-lite/material.min.js",
-        // "./node_modules/jquery/dist/jquery.min.js"
+        "./node_modules/classlist-polyfill/src/index.js"
        ])
       .pipe(concat("vendor.js"))
       .pipe(gulp.dest("dist"))
@@ -65,7 +65,7 @@ export class Gulpfile {
 
   @SequenceTask()
   compile() {
-	  return ["markup", "styles", "vendorStyles", "scripts", "vendorScripts"];
+	  return ["styles", "vendorStyles", "scripts", "vendorScripts", "markup"];
   }         
 
   @Task()

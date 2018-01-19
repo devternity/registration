@@ -1,5 +1,4 @@
 import {module} from 'angular'
-import {_} from 'lodash'
 
 
 import {Filters} from './Filters'
@@ -47,7 +46,10 @@ app.controller('Attendify', function($http, $rootScope, Event) {
 
 	$rootScope.$on("AttendeeAdded", (event, attendee) => {
         if (attendee.workshop) {
-            var workshopTitle = _.find(this.workshops, {product:attendee.workshop}).title;    
+            var workshopTitle = this.workshops
+                .filter(w => { return w.product == attendee.workshop })
+                .pop()
+                .title;
             attendee['workshopTitle'] = workshopTitle;
         }
         
@@ -102,7 +104,7 @@ app.controller('Attendify', function($http, $rootScope, Event) {
     		attachments: [
 	    		{
 	            	pretext: "Registration to " + firebaseApplication.product,
-	            	footer: _.join([firebaseApplication.company.name, firebaseApplication.company.vat, firebaseApplication.company.address], " "),
+	            	footer: [firebaseApplication.company.name, firebaseApplication.company.vat, firebaseApplication.company.address].join(" "),
 					color: "#36a64f",
 					fields: [
 						{
@@ -145,7 +147,7 @@ app.controller('Attendify', function($http, $rootScope, Event) {
     		]
     	}
 
-    	_.forEach(this.registration.attendees, attendee => {
+        this.registration.attendees.forEach(attendee => {
 
     		var slackTickets = [];
 
@@ -171,7 +173,7 @@ app.controller('Attendify', function($http, $rootScope, Event) {
 	        	{
 					color: "#36a64f",	        			
 	            	title: attendee.name + " (" + attendee.email + ")",
-	            	text: _.join(slackTickets, ", ")
+	            	text: slackTickets.join(", ")
 	        	});
 
     		firebaseApplication.attendees.push(firebaseAttendee)
@@ -191,7 +193,7 @@ app.controller('Attendify', function($http, $rootScope, Event) {
     
     this.recalculate = () => {
     	
-    	_.forEach(this.registration.attendees, attendee => {
+    	this.registration.attendees.forEach(attendee => {
     		var cost = 0;
     		var discount = 0;
     		if (attendee.attendMain) {
@@ -210,14 +212,19 @@ app.controller('Attendify', function($http, $rootScope, Event) {
     		attendee['discount'] = discount;
     	})
 	    	
-    	this.subtotal = _.sumBy(this.registration.attendees, "cost");    	
-    	this.discount = _.sumBy(this.registration.attendees, "discount")    	
+    	this.subtotal = this.registration.attendees
+            .map(it => { return it.cost })
+            .reduce((a, b) => { return a + b })
+
+    	this.discount = this.registration.attendees
+            .map(it => { return it.discount })
+            .reduce((a, b) => { return a + b })
 
     	var discountedTotal = this.subtotal - this.discount;
 
 		var fee = 0;
 		if (this.registration.paymentMethod == "VISA") {
-			fee = _.round((discountedTotal * 3) / 100);			
+			fee = Math.round((discountedTotal * 3) / 100)
 		}
 
 		this.fee = fee;

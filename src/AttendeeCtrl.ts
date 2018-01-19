@@ -1,7 +1,4 @@
 import {notification} from './Notification'
-import {_} from 'lodash'
-
-import * as $ from 'jquery'
 
 export class AttendeeCtrl {
 
@@ -35,19 +32,22 @@ export class AttendeeCtrl {
 
 		if (!this.attendMain) {
 			var element = document.querySelector(".mdl-checkbox-main-day");
-			$(element).removeClass('is-checked')
+			element.classList.remove('is-checked')
 		} else {
 			var element = document.querySelector(".mdl-checkbox-main-day");
-			$(element).addClass('is-checked')
+			element.classList.add('is-checked')
 		}
 
 		if (!this.workshop) {
 			let elements = document.querySelectorAll(".workshop .mdl-radio");
 			for (var i = 0; i < elements.length; i++) {
-   				$(elements[i]).removeClass('is-checked')
+				elements[i].classList.remove('is-checked');
 			}			
-			var element = document.querySelector(".workshop .mdl-radio[for='false']");
-			$(element).addClass('is-checked')			
+			if (elements.length) {
+				var element = document.querySelector(".workshop .mdl-radio[for='false']");				
+				element.classList.add('is-checked')			
+			}
+
 		}
 	}
 
