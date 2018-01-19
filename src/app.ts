@@ -78,7 +78,7 @@ app.controller('Attendify', function($http, $rootScope, Event) {
     this.toPayment = () => {
 
     	var firebaseApplication = {
-    		discountCode: this.discountCode,
+    		discountCode: this.promo.code,
     		paymentMethod: this.registration.paymentMethod,
     		name: this.registration.name,
     		email: this.registration.email,
@@ -132,7 +132,7 @@ app.controller('Attendify', function($http, $rootScope, Event) {
 						},		
 						{
 						  "title": "Discount",
-						  "value": this.discount + "€" + (this.discountCode ? " (" + this.discountCode + ")" : ""),
+						  "value": this.discount + "€" + (this.promo.code ? " (" + this.promo.code + ")" : ""),
 						  "short": true
 						},	
 						{

@@ -56,12 +56,8 @@ export class Gulpfile {
   vendorScripts() {
     return gulp
       .src([
-        "./node_modules/lodash/lodash.min.js", 
         "./node_modules/material-design-lite/material.min.js",
-        "./node_modules/getmdl-select/getmdl-select.min.js",
-        "./node_modules/angular/angular.min.js",
-        "./node_modules/angular-resource/angular.min.js",
-        "./node_modules/jquery/dist/jquery.min.js"
+        // "./node_modules/jquery/dist/jquery.min.js"
        ])
       .pipe(concat("vendor.js"))
       .pipe(gulp.dest("dist"))
@@ -75,8 +71,7 @@ export class Gulpfile {
   @Task()
   serve() {
 	  connect.server({
-		  root: 'dist',
-		  livereload: true
+		  root: 'dist'
 	  });
   }      
 
