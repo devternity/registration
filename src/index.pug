@@ -49,7 +49,7 @@ html.no-js(lang='', ng-app='app')
                   .billingSwitch
                     label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect(for='companyPayment')
                       input#companyPayment.mdl-switch__input(type='checkbox', ng-model='main.registration.companyBilling', ng-change='main.wipeCompanyBillingInfo()')
-                      span.mdl-switch__label Company is paying
+                      span.mdl-switch__label The bill will be paid by a company
                   .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(ng-class="{'is-invalid': main.noCompany}", ng-show='main.registration.companyBilling')
                     input#companyName.mdl-textfield__input(ng-model='main.registration.legal.name', type='text')
                     label.mdl-textfield__label(for='companyName') Company name

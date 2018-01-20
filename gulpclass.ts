@@ -8,8 +8,11 @@ let concat = require("gulp-concat")
 let connect = require("gulp-connect")
 let stylus = require("gulp-stylus")
 let deploy = require("gulp-gh-pages")
+let uglify = require("gulp-uglify")
 let inline = require('gulp-inline-source')
+// let inline = require('gulp-inline')
 let source = require("vinyl-source-stream")
+let streamify = require("gulp-streamify")
 let browserify = require("browserify")
 
 
@@ -22,6 +25,10 @@ export class Gulpfile {
 			.src(["./src/**.pug"])
 			.pipe(pug())
       .pipe(inline({rootpath: './dist', compress: false}))
+       // .pipe(inline({
+         // base: './dist/',
+         // js: uglify
+       // }))
 			.pipe(gulp.dest("./dist"))
   }    
 
@@ -46,9 +53,10 @@ export class Gulpfile {
   @Task()
   scripts() {
     return browserify({ entries: "./src/app.ts" })
-      .plugin("tsify", { noImplicitAny: false })
+      .plugin("tsify", { noImplicitAny: false})     
       .bundle()  
       .pipe(source("app.js"))
+      .pipe(streamify(uglify({ mangle: false })))
       .pipe(gulp.dest("./dist"))
   }     
 
@@ -56,10 +64,12 @@ export class Gulpfile {
   vendorScripts() {
     return gulp
       .src([
+        "./node_modules/es5-shim/es5-shim.min.js",
         "./node_modules/material-design-lite/material.min.js",
         "./node_modules/classlist-polyfill/src/index.js"
        ])
       .pipe(concat("vendor.js"))
+      .pipe(uglify({ mangle: false }))
       .pipe(gulp.dest("dist"))
   } 
 
