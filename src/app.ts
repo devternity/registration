@@ -80,7 +80,7 @@ app.controller('Attendify', function($http, $rootScope, Event) {
     this.toPayment = () => {
 
     	var firebaseApplication = {
-    		discountCode: this.promo.code,
+    		discountCode: this.promo ? this.promo.code : undefined,
     		paymentMethod: this.registration.paymentMethod,
     		name: this.registration.name,
     		email: this.registration.email,
@@ -134,7 +134,7 @@ app.controller('Attendify', function($http, $rootScope, Event) {
 						},		
 						{
 						  "title": "Discount",
-						  "value": this.discount + "€" + (this.promo.code ? " (" + this.promo.code + ")" : ""),
+						  "value": this.discount + "€" + (this.promo ? " (" + this.promo.code + ")" : ""),
 						  "short": true
 						},	
 						{
@@ -193,6 +193,10 @@ app.controller('Attendify', function($http, $rootScope, Event) {
     
     this.recalculate = () => {
     	
+        if (!this.registration.attendees || !this.registration.attendees.length) {
+            return;
+        }
+
     	this.registration.attendees.forEach(attendee => {
     		var cost = 0;
     		var discount = 0;
