@@ -100,81 +100,20 @@ app.controller('Attendify', function($http, $rootScope, Event) {
     		}
     	}
 
-    	firebaseApplication['slack'] = {
-    		attachments: [
-	    		{
-	            	pretext: "Registration to " + firebaseApplication.product,
-	            	footer: [firebaseApplication.company.name, firebaseApplication.company.vat, firebaseApplication.company.address].join(" "),
-					color: "#36a64f",
-					fields: [
-						{
-						  "title": "Name",
-						  "value": firebaseApplication.name,
-						  "short": true
-						},	
-						{
-						  "title": "Email",
-						  "value": firebaseApplication.email,
-						  "short": true
-						},												
-						{
-						  "title": "Payment method",
-						  "value": firebaseApplication.paymentMethod,
-						  "short": true
-						},
-						{
-						  "title": "Subtotal",
-						  "value": firebaseApplication.subtotal + "€",
-						  "short": true
-						},	  				
-						{
-						  "title": "Fee",
-						  "value": firebaseApplication.fee + "€",
-						  "short": true
-						},		
-						{
-						  "title": "Discount",
-						  "value": this.discount + "€" + (this.promo ? " (" + this.promo.code + ")" : ""),
-						  "short": true
-						},	
-						{
-						  "title": "Total",
-						  "value": firebaseApplication.total + "€",
-						  "short": true
-						}
-					]	   
-				} 		
-    		]
-    	}
-
         this.registration.attendees.forEach(attendee => {
-
-    		var slackTickets = [];
 
     		var tickets = [];
     		if (attendee.attendMain) {
     			tickets.push("MAIN_DAY")
-    			slackTickets.push("Main Day");
     		}
     		if (attendee.workshop) {
-                var workshopCode = attendee.workshop;
-    			var workshopTitle = attendee.workshopTitle;
-    			tickets.push(workshopCode);
-				slackTickets.push(workshopTitle);
+    			tickets.push(attendee.workshop);
     		}
     		var firebaseAttendee = {
     			name: attendee.name,
     			email: attendee.email,
     			tickets: tickets
     		};
-
-
-	      	firebaseApplication.slack.attachments.push(
-	        	{
-					color: "#36a64f",	        			
-	            	title: attendee.name + " (" + attendee.email + ")",
-	            	text: slackTickets.join(", ")
-	        	});
 
     		firebaseApplication.attendees.push(firebaseAttendee)
     	});
