@@ -1,10 +1,11 @@
 import {module} from 'angular'
-
+import * as moment from 'moment'
 
 import {Filters} from './Filters'
 import {DiscountCtrl} from './DiscountCtrl'
 import {AttendeeCtrl} from "./AttendeeCtrl"
 import {Event} from './Event'
+import * as UUID from "uuidjs";
 
 import {notification} from './Notification'
 
@@ -94,29 +95,44 @@ app.controller('Attendify', function($http, $rootScope, Event) {
     		total: this.total,
     		discount: this.discount,
     		fee: this.fee,
-    		attendees: [],    		
+    		tickets: [],    		
     		slack: {
     			attachments: []
     		}
     	}
 
         this.registration.attendees.forEach(attendee => {
-
-    		var tickets = [];
     		if (attendee.attendMain) {
-    			tickets.push("MAIN_DAY")
+                firebaseApplication.tickets.push({
+                    holder: {
+                        name: attendee.name,
+                        email: attendee.email
+                    },                    
+                    id: UUID.generate(),
+                    event: "Main Day Pass",
+                    title: this.event.title,                    
+                    startsAt: moment(this.event.date_iso).format('dddd Do MMM YYYY'),
+                    startsAtHint: "Registration starts at 8:00",
+                    location: this.event.venue_name,
+                    locationHint: this.event.venue_address + ", " + this.event.city + ", " + this.event.country
+                })
     		}
     		if (attendee.workshop) {
-    			tickets.push(attendee.workshop);
+    			firebaseApplication.tickets.push({
+                    holder: {
+                        name: attendee.name,
+                        email: attendee.email
+                    },                    
+                    id: UUID.generate(),
+                    event: attendee.workshopTitle,
+                    title: this.event.title, 
+                    startsAt: moment(this.event.date_iso).add(1, 'days').format('dddd Do MMM YYYY'),
+                    startsAtHint: "Registration starts at 8:00",
+                    location: this.event.venue_name,
+                    locationHint: this.event.venue_address + ", " + this.event.city + ", " + this.event.country
+                })
     		}
-    		var firebaseAttendee = {
-    			name: attendee.name,
-    			email: attendee.email,
-    			tickets: tickets
-    		};
-
-    		firebaseApplication.attendees.push(firebaseAttendee)
-    	});
+    	});        
 
 		$http.post('https://devternity-22e74.firebaseio.com/applications.json', firebaseApplication)
 			.then(
@@ -127,7 +143,6 @@ app.controller('Attendify', function($http, $rootScope, Event) {
 					notification.show("❌ Sorry, something went wrong! Drop us an email to hello@devternity.com")	
 				},				
 			);
-    	
     }
     
     this.recalculate = () => {

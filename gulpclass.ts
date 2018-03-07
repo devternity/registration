@@ -66,7 +66,9 @@ export class Gulpfile {
       .src([
         "./node_modules/es5-shim/es5-shim.min.js",
         "./node_modules/material-design-lite/material.min.js",
-        "./node_modules/classlist-polyfill/src/index.js"
+        "./node_modules/classlist-polyfill/src/index.js",
+        "./node_modules/moment/min/moment.min.js",
+        "./node_modules/uuidjs/dist/uuid.core.js"
        ])
       .pipe(concat("vendor.js"))
       .pipe(uglify({ mangle: false }))
