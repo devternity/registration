@@ -101,7 +101,7 @@ html.no-js(lang='', ng-app='app')
                       div.workshop(ng-repeat='workshop in main.workshops')
                         label.mdl-radio.mdl-js-radio.mdl-js-ripple-effect(for='{{workshop.product}}')
                           input.mdl-radio__button(id='{{workshop.product}}' ng-value="workshop.product" type='radio' name="workshops" ng-model='attendee.workshop' ng-change='attendee.onChange()')
-                          span.mdl-radio__label {{workshop.title | truncate:19}}                     
+                          span.mdl-radio__label {{workshop.title | truncate:18}}                     
                   .mdl-card__actions
                     button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--colored(ng-disabled='attendee.addDisabled', ng-click='attendee.add()')
                       | Add
