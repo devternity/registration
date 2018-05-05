@@ -155,13 +155,13 @@ app.controller('Attendify', function($http, $rootScope, Event) {
     		var cost = 0;
     		var discount = 0;
     		if (attendee.attendMain) {
-    			cost = cost + this.event.pricing.products[0].price;
+    			cost = cost + this.event.pricing.packages['Main Day Only'].price;
     			if (this.promo && this.promo.mainDayAmount) {
 					discount = discount + parseInt(this.promo.mainDayAmount);
     			}    			
     		}
     		if (attendee.workshop) {
-    			cost = cost + this.event.pricing.products[1].price;
+    			cost = cost + this.event.pricing.packages['Power Workshop Only'].price;
     			if (this.promo && this.promo.workshopAmount) {
 					discount = discount + parseInt(this.promo.workshopAmount);
     			}    			    			
