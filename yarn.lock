@@ -72,9 +72,9 @@ amdefine@>=0.0.4:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
 
-angular-route@^1.6.7:
+angular-cookies@^1.7.0:
   version "1.7.0"
-  resolved "https://registry.yarnpkg.com/angular-route/-/angular-route-1.7.0.tgz#37cbe8ddb58a331624d0a33e59c17e7254854e08"
+  resolved "https://registry.yarnpkg.com/angular-cookies/-/angular-cookies-1.7.0.tgz#d0d0e5feb302e0ad202a9be5fa14b52646a155b1"
 
 angular@1.6.7:
   version "1.6.7"

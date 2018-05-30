@@ -1,24 +1,27 @@
 import {module} from 'angular'
-import {ngRoute} from 'angular-route'
+import {ngCookies} from 'angular-cookies'
 import * as moment from 'moment'
+import * as UUID from 'uuidjs'
+
+[module, ngCookies]
 
 import {Filters} from './Filters'
 import {DiscountCtrl} from './DiscountCtrl'
 import {AttendeeCtrl} from "./AttendeeCtrl"
 import {Event} from './Event'
-import * as UUID from "uuidjs";
 
 import {notification} from './Notification'
 
-let app = module('app', [])
+let app = module('app', ['ngCookies'])
+
 new Filters(app)
 
 app.service('Event', Event)
 
 app.controller('AttendeeCtrl', AttendeeCtrl)
 app.controller('DiscountCtrl', DiscountCtrl);
-app.controller('Attendify', function($http, $rootScope, Event) {
-	 
+app.controller('Attendify', function($http, $cookies, $rootScope, Event) {
+
 	Event.latest()
 		.then(latestEvent => {
 			let workshopsOnSale = latestEvent
@@ -82,6 +85,7 @@ app.controller('Attendify', function($http, $rootScope, Event) {
     this.toPayment = () => {
 
     	var firebaseApplication = {
+        referral: $cookies.get('referral'),
     		discountCode: this.promo ? this.promo.code : undefined,
     		paymentMethod: this.registration.paymentMethod,
     		name: this.registration.name,
