@@ -1,4 +1,5 @@
 import {module} from 'angular'
+import {ngRoute} from 'angular-route'
 import * as moment from 'moment'
 
 import {Filters} from './Filters'

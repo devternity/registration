@@ -156,7 +156,7 @@ html.no-js(lang='', ng-app='app')
                   a.mdl-button.mdl-button--colored.mdl-js-button.mdl-js-ripple-effect(ng-click='main.toBilling()')
                     i.material-icons 
                     |  Back
-                  a.mdl-button--raised.mdl-button.mdl-button--colored.mdl-js-button.mdl-js-ripple-effect(ng-click='main.toPayment()', ng-disabled='!main.subtotal')
+                  button.mdl-button--raised.mdl-button.mdl-button--colored.mdl-js-button.mdl-js-ripple-effect(ng-click='main.toPayment()', ng-disabled='!main.subtotal')
                     | Complete 
                     i.material-icons 
               div(ng-show="main.step == 'PAYMENT'")
