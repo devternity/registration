@@ -56,7 +56,7 @@ html.no-js(lang='', ng-app='app')
                     label.mdl-textfield__label(for='companyName') Company name
                   .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(ng-class="{'is-invalid': main.noVat}", ng-show='main.registration.companyBilling')
                     input#vatNo.mdl-textfield__input(ng-model='main.registration.legal.vat', type='text')
-                    label.mdl-textfield__label(for='vatNo') VAT number
+                    label.mdl-textfield__label(for='vatNo') VAT / Federal Tax / Company registration number
                   .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(ng-class="{'is-invalid': main.noAddress}", ng-show='main.registration.companyBilling')
                     input#companyAddress.mdl-textfield__input(ng-model='main.registration.legal.address', type='text')
                     label.mdl-textfield__label(for='companyAddress') Address
