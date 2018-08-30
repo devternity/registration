@@ -13,7 +13,7 @@ export class DiscountCtrl {
 	    var url = "https://devternity-22e74.firebaseio.com/coupons/" + this.code + ".json"
 	    this.$http.get(url).then(_ => {
             var discount = _.data
-            if (this.code.endsWith("18")) {
+            if (this.code.indexOf("_18") >= 0) {
                 discount = {
                     code: this.code,
                     mainDayAmount: "25",
@@ -26,7 +26,7 @@ export class DiscountCtrl {
     		} else {
                 this.$rootScope.$emit("InvalidDiscountApplied", {});
                 notification.show('❌ The entered discount code is not valid.');
-	    	}
+	    }
        });
 	}
 }
