@@ -3,170 +3,170 @@ html.no-js(lang='', ng-app='app')
   head
     meta(charset='utf-8')
     meta(http-equiv='x-ua-compatible', content='ie=edge')
-    title Attend DevTernity
+    title Conference Registration
     meta(name='description', content='')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     link(rel='shortcut icon' type='image/png' href='https://devternity.com/images/logo_2017_filled.png')
+    link(rel="stylesheet", href="//use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous")
     link(rel='stylesheet', href='//fonts.googleapis.com/icon?family=Material+Icons')
     link(rel='stylesheet', href='vendor.css' inline)      
     link(rel='stylesheet', href='app.css' inline)
     script(src='vendor.js' inline)      
     script(src='app.js' inline)
   body(ng-controller='Attendify as main')
-    .mdl-layout.mdl-js-layout.mdl-layout--fixed-drawer
-      .mdl-grid.main
-        .mdl-cell.mdl-cell--12-col
-          .demo-card-wide.mdl-card.mdl-shadow--2dp
-            .mdl-card__title
-              div
-                h5 {{main.event.theme}} | Registration
-                h6 The registration comprise of 3 easy steps:
-                ul.demo-list-three.mdl-list
-                  li.mdl-list__item.mdl-list__item--three-line(ng-class="{done: main.step == 'TICKETS' || main.step == 'PAYMENT'}")
-                    span.mdl-list__item-primary-content
-                      i.material-icons.mdl-list__item-avatar(ng-show="main.step != 'BILLING'") done
-                      i.material-icons.mdl-list__item-avatar(ng-show="main.step == 'BILLING'") arrow_forward
-                      span Provide billing information
-                      span.mdl-list__item-text-body
-                        | You can pay with Bank transfer, Visa/Mastercard or Bitcoin.
-                  li.mdl-list__item.mdl-list__item--three-line(ng-class="{active: main.step == 'TICKETS', done: main.step == 'PAYMENT'}")
-                    span.mdl-list__item-primary-content
-                      i.material-icons.mdl-list__item-avatar(ng-show="main.step != 'TICKETS'") done
-                      i.material-icons.mdl-list__item-avatar(ng-show="main.step == 'TICKETS'") arrow_forward
-                      span Provide attendee information
-                      span.mdl-list__item-text-body
-                        | You can change attendee info any time, free of charge.
-                  li.mdl-list__item.mdl-list__item--three-line(ng-class="{active: main.step == 'PAYMENT'}")
-                    span.mdl-list__item-primary-content
-                      i.material-icons.mdl-list__item-avatar(ng-show="main.step != 'PAYMENT'") done
-                      i.material-icons.mdl-list__item-avatar(ng-show="main.step == 'PAYMENT'") arrow_forward
-                      span Make a payment
-                      span.mdl-list__item-text-body
-                        | After the payment, tickets will be sent to your email.
-            .mdl-card__supporting-text
-              div(ng-show="main.step == 'BILLING'")
-                form(name='billingForm', novalidate='')
-                  h4 Provide billing information
-                  .billingSwitch
-                    label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect(for='companyPayment')
-                      input#companyPayment.mdl-switch__input(type='checkbox', ng-model='main.registration.companyBilling', ng-change='main.wipeCompanyBillingInfo()')
-                      span.mdl-switch__label I need a company invoice/receipt
-                  .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(ng-class="{'is-invalid': main.noCompany}", ng-show='main.registration.companyBilling')
-                    input#companyName.mdl-textfield__input(ng-model='main.registration.legal.name', type='text')
-                    label.mdl-textfield__label(for='companyName') Company name
-                  .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(ng-class="{'is-invalid': main.noVat}", ng-show='main.registration.companyBilling')
-                    input#vatNo.mdl-textfield__input(ng-model='main.registration.legal.vat', type='text')
-                    label.mdl-textfield__label(for='vatNo') VAT / Federal Tax / Company registration number
-                  .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(ng-class="{'is-invalid': main.noAddress}", ng-show='main.registration.companyBilling')
-                    input#companyAddress.mdl-textfield__input(ng-model='main.registration.legal.address', type='text')
-                    label.mdl-textfield__label(for='companyAddress') Address
-                  .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(ng-class="{'is-invalid': main.noName}")
-                    input#yourName.mdl-textfield__input(ng-model='main.registration.name', type='text')
-                    label.mdl-textfield__label(for='yourName') Your name
-                  .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(ng-class="{'is-invalid': main.noEmail}")
-                    input#yourEmail.mdl-textfield__input(ng-model='main.registration.email', type='email')
-                    label.mdl-textfield__label(for='yourEmail') Your email (for invoicing)
-                  label.mdl-radio.mdl-js-radio.mdl-js-ripple-effect(for='payWithBankTransfer')
-                    input#payWithBankTransfer.mdl-radio__button(ng-model='main.registration.paymentMethod', type='radio', name='options', value='BANK', ng-change='main.changePaymentMethod()')
-                    span.mdl-radio__label Bank transfer
-                  br
-                  label.mdl-radio.mdl-js-radio.mdl-js-ripple-effect(for='payWithCard')
-                    input#payWithCard.mdl-radio__button(ng-model='main.registration.paymentMethod', type='radio', name='options', value='VISA', ng-change='main.changePaymentMethod()')
-                    span.mdl-radio__label Visa/Mastercard (~3% fee)
-                  br
-                  label.mdl-radio.mdl-js-radio.mdl-js-ripple-effect(for='payWithBitcoin')
-                    input#payWithBitcoin.mdl-radio__button(ng-model='main.registration.paymentMethod', type='radio', name='options', value='BTC', ng-change='main.changePaymentMethod()')
-                    span.mdl-radio__label Bitcoin
-                .mdl-card__actions
-                  a.mdl-button.mdl-button--colored.mdl-js-button.mdl-js-ripple-effect.mdl-button--raised(ng-click='main.toTickets()')
-                    | Tickets 
-                    i.material-icons 
-              div(ng-show="main.step == 'TICKETS'" ng-controller="AttendeeCtrl as attendee")
-                form(name='ticketsForm', novalidate='')
-                  h4 Provide attendee information
-                  .mdl-grid.editor
-                    .mdl-cell.mdl-cell--3-col.mdl-cell--middle
-                      .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-                        input#editName.mdl-textfield__input(ng-model='attendee.name', type='text', ng-change='attendee.onChange()')
-                        label.mdl-textfield__label(for='editName') Name
-                    .mdl-cell.mdl-cell--3-col.mdl-cell--middle
-                      .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label(ng-class="{'is-invalid': !attendee.email && attendee.email.length}")
-                        input#editEmail.mdl-textfield__input(ng-model='attendee.email', type='email', ng-change='attendee.onChange()')
-                        label.mdl-textfield__label(for='editEmail') Email
-                    .mdl-cell.mdl-cell--3-col.mdl-cell--middle
-                      label.mdl-checkbox.mdl-checkbox-main-day.mdl-js-checkbox.mdl-js-ripple-effect(for='editMainDay')
-                        input#editMainDay.mdl-checkbox__input(type='checkbox', ng-model='attendee.attendMain', ng-change='attendee.onChange()')
-                        span.mdl-checkbox__label Main Day Pass
-                    .mdl-cell.mdl-cell--3-col.mdl-cell--middle
-                      div.workshop(ng-repeat='workshop in main.workshops')
-                        label.mdl-radio.mdl-js-radio.mdl-js-ripple-effect(for='{{workshop.product}}')
-                          input.mdl-radio__button(id='{{workshop.product}}' ng-value="workshop.product" type='radio' name="workshops" ng-model='attendee.workshop' ng-change='attendee.onChange()')
-                          span.mdl-radio__label {{workshop.title | truncate:18}}                     
-                  .mdl-card__actions
-                    button.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--colored(ng-disabled='attendee.addDisabled', ng-click='attendee.add()')
-                      | Add
-                  .mdl-grid.tickets(ng-repeat='attendee in main.registration.attendees track by $index')
-                    .mdl-cell.mdl-cell--5-col.mdl-cell--12-col-phone.mdl-cell--middle
-                      h6 {{attendee.name | truncate:27}}
-                      |     {{attendee.email | truncate:30}}
-                    .mdl-cell.mdl-cell--4-col.mdl-cell--12-col-phone.mdl-cell--middle
-                      div
-                        span(ng-show='attendee.attendMain')
-                          i.material-icons 
-                          |  Main Day 
-                          br
-                        span(ng-show='attendee.workshop')
-                          i.material-icons 
-                          |  {{attendee.workshopTitle | truncate:35}}
-                      span(ng-show='attendee.attendMain && !attendee.workshop', style='color:red')
-                        i.material-icons 
-                        |  No Workshop Pass
-                      span(ng-show='attendee.workshop && !attendee.attendMain', style='color:red')
-                        i.material-icons 
-                        |  No Main Day Pass
-                    .mdl-cell.mdl-cell--2-col.mdl-cell--12-col-phone.mdl-cell--middle.mdl-cell--right
-                      | € 
-                      span(ng-class='{strike:attendee.discount}') {{attendee.cost}}
-                      span(ng-show='attendee.discount')
-                        span.mdl-badge(data-badge='♥')  {{attendee.cost - attendee.discount}}
-                    .mdl-cell.mdl-cell--1-col.mdl-cell--12-col-phone.mdl-cell--middle.mdl-cell--right
-                      a(ng-click='main.dropAttendee($index)')
-                        i.material-icons 
-                    .mdl-cell.mdl-cell--12-col.mdl-cell--middle
-                      hr
-                  .mdl-grid(ng-show='main.subtotal')
-                    .mdl-cell.mdl-cell--6-col(ng-controller='DiscountCtrl as discount')
-                      .mdl-grid.mdl-grid--no-spacing
-                        .mdl-cell.mdl-cell--11-col.mdl-cell--middle
-                          .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-                            input#discountCode.mdl-textfield__input(ng-model='discount.code', type='text')
-                            label.mdl-textfield__label(for='discountCode') Discount code
-                        .mdl-cell.mdl-cell--1-col
-                      button.mdl-button.mdl-js-button.mdl-button--raised(ng-disabled='!discount.code', ng-click='discount.apply()')
-                        | Apply
-                      span.mdl-badge(ng-show='main.discount', data-badge='♥')
-                    .mdl-cell.mdl-cell--6-col.mdl-cell--right.mdl-cell--summary
-                      h6 Subtotal: €{{main.subtotal}}
-                      h6(ng-show='main.fee') Visa/Mastercard fee: €{{main.fee}}
-                      h6(ng-show='main.discount') Discount: €{{main.discount}}
-                      h6(ng-show='!main.discount')  
-                      h4 Total: €{{main.total}}
-                      |         * Additional 20% VAT applies to companies encorporated in the Republic of Estonia
-                .mdl-card__actions.mdl-card--border
-                  a.mdl-button.mdl-button--colored.mdl-js-button.mdl-js-ripple-effect(ng-click='main.toBilling()')
-                    i.material-icons 
-                    |  Back
-                  button.mdl-button--raised.mdl-button.mdl-button--colored.mdl-js-button.mdl-js-ripple-effect(ng-click='main.toPayment()', ng-disabled='!main.subtotal')
-                    | Complete 
-                    i.material-icons 
-              div(ng-show="main.step == 'PAYMENT'")
-                form(action='#', name='billingForm', novalidate='')
-                  h4 Great job!
-                  p
-                    | Payment information will be sent to your mailbox ({{main.registration.email}}) within the next 24 hours. After the payment, you will receive the tickets.
-    .mdl-snackbar.mdl-js-snackbar(aria-live='assertive', aria-atomic='true', aria-relevant='text')
-      .mdl-snackbar__text
-      button.mdl-snackbar__action(type='button')
+    .hero.is-primary.is-bold
+      .hero-body
+        .container
+          h1.title {{main.event.theme}} Registration
+    section.section
+      .container
+        article.message.is-danger(ng-show="main.showWarning")
+          .message-body Sorry, something went wrong with this form. In order to register, please send an email to hello@devternity.com.
+        
+        h4.title.is-3 Billing information
+        form(novalidate='')
+            .field
+              .control.has-text-right
+                label.checkbox(for='companyPayment') 
+                  input#companyPayment(type='checkbox', ng-model='main.registration.companyBilling', ng-change='main.wipeCompanyBillingInfo()')
+                  |  I need a company invoice/receipt
+            .field(ng-show='main.registration.companyBilling')
+              label.label(for='companyName') Company name
+              .control
+                input#companyName.input(ng-model='main.registration.legal.name' type='text')
+            .field(ng-show='main.registration.companyBilling')
+              label.label(for='vatNo') VAT number, FEIN, or Company Registration number
+              .control
+                input#vatNo.input(ng-model='main.registration.legal.vat' type='text')
+            .field(ng-show='main.registration.companyBilling')
+              label.label(for='companyAddress') Address
+              .control
+                input#companyAddress.input(ng-model='main.registration.legal.address' type='text')
+            .field
+              label.label(for='yourName') Your name
+              .control
+                input#yourName.input(ng-model='main.registration.name' type='text')
+            .field
+              label.label(for='yourEmail') Your email (for invoicing)
+              .control
+                input#yourEmail.input(ng-model='main.registration.email', type='email')
+            .field
+              .control
+                label.radio(for='payWithBankTransfer')
+                input#payWithBankTransfer(ng-model='main.registration.paymentMethod', type='radio', name='options', value='BANK', ng-change='main.changePaymentMethod()')
+                |  Bank transfer
+                br
+                label.radio(for='payWithCard')
+                input#payWithCard(ng-model='main.registration.paymentMethod', type='radio', name='options', value='VISA', ng-change='main.changePaymentMethod()')
+                |  Visa/Mastercard (~3% fee for corporate cards)
+                br
+                label.radio(for='payWithBitcoin')
+                input#payWithBitcoin(ng-model='main.registration.paymentMethod', type='radio', name='options', value='BTC', ng-change='main.changePaymentMethod()')
+                |  Bitcoin  
+
+    section.section
+      .container
+        div(ng-controller="AttendeeCtrl as attendee")
+          h4.title.is-3 Tickets
+          article.message.is-primary
+            .message-body You can change attendee info any time, free of charge.
+          form(novalidate='')
+            .field.is-horizontal
+              .field-label.is-normal
+                label.label Attendee
+              .field-body
+                .field
+                  .control.is-expanded.has-icons-left
+                    input.input(placeholder="Name" ng-model='attendee.name', type='text', ng-change='attendee.onChange()')
+                    span.icon.is-small.is-left
+                      i.fas.fa-user
+                .field
+                  .control.is-expanded.has-icons-left
+                    input.input(placeholder="Email" ng-model='attendee.email', type='email', ng-change='attendee.onChange()' ng-class="{'is-danger': !attendee.email && attendee.email.length}")
+                    span.icon.is-small.is-left
+                      i.fas.fa-envelope
+            .field.is-horizontal
+              .field-label.is-normal
+                label.label Ticket
+              .field-body            
+                .field
+                  .control.is-expanded
+                    .select.is-fullwidth
+                      select(ng-model="attendee.ticket" ng-options="name for (name, info) in main.ticketsOnSale" ng-change='attendee.onChange()')
+            .field.is-horizontal(ng-show="attendee.ticket.includesWorkshop")
+              .field-label.is-normal
+                label.label Workshop
+              .field-body
+                .field
+                  .control.is-expanded
+                    .select.is-fullwidth
+                      select(ng-model='attendee.workshop' ng-options="info.title for (index, info) in main.workshops"  ng-change='attendee.onChange()')
+            .field.has-text-right
+              button.button.is-primary(ng-disabled='attendee.addDisabled', ng-click='attendee.add()')
+                span.icon
+                  i.fas.fa-plus
+              
+            .final(ng-show="main.registration.attendees.length")
+              table.table.is-striped.is-fullwidth
+                thead
+                  th #
+                  th Name
+                  th Email
+                  th Tickets
+                  th Price
+                  th &nbsp;
+                tbody
+                  tr(ng-repeat='attendee in main.registration.attendees track by $index')
+                    td {{$index + 1}}
+                    td {{attendee.name | truncate:27}}
+                    td {{attendee.email | truncate:30}}
+                    td
+                      span {{attendee.tickets | join}}
+                    td € 
+                      span {{attendee.cost}}
+                    td
+                      a.delete(ng-click='main.dropAttendee($index)')
+              .columns
+                .column(ng-controller='DiscountCtrl as discount')
+                  .is-pulled-right
+                    .field.has-addons.is-pulled-right
+                      .control
+                        input.input(ng-model='discount.code' type='text' ng-class='{"is-primary": discount.oki, "is-danger": discount.warn}' placeholder="Discount code")
+                      .control
+                        a.button.is-primary(ng-disabled='!discount.code', ng-click='discount.apply()') Apply
+                    p.help.is-danger(ng-show='discount.warn') Ooops! Wrong code.
+                    p.help.is-primary(ng-show='discount.oki') Wohoo! The discount has been applied!
+              .columns
+                .column.is-12
+                  nav.level
+                    .level-item.has-text-centered(ng-show="main.subtotal != main.total")
+                      .div
+                        p.heading Subtotal
+                        p.title €{{main.subtotal}}
+                    .level-item.has-text-centered(ng-show='main.fee')
+                      .div
+                        p.heading Visa/Mastercard fee
+                        p.title €{{main.fee}}
+                    .level-item.has-text-centered(ng-show='main.discount') 
+                      .div
+                        p.heading Discount  
+                          i.far.fa-heart.has-text-danger
+                        p.title €{{main.discount}}
+                    .level-item.has-text-centered
+                      .div
+                        p.heading Total
+                        p.title €{{main.total}}
+              .columns
+                .column.has-text-centered
+                  p.is-size-7 * Additional 20% VAT applies to companies encorporated in the Republic of Estonia.
+              .columns
+                .column.has-text-centered
+                  .field
+                    button.button.is-primary.is-large(ng-disabled="!(main.registration.name && main.registration.email && (!main.registration.companyBilling || (main.registration.legal.name && main.registration.legal.vat && main.registration.legal.address)))" ng-click='main.complete()' ng-class='{"is-loading": main.step == "COMPLETE_CLICKED"}' ng-show='main.step != "REGISTERED"') Complete
+                  p.help.is-danger(ng-show='main.step == "REGISTRATION_FAILED"') Sorry, something went wrong! In order to register, please send an email to hello@devternity.com.
+                  article.message.is-primary(ng-show='main.step == "REGISTERED"')
+                    .message-body Great job! We will send payment information to your email ({{main.registration.email}}) within the next 24 hours. After the payment, you will receive the tickets.
+
     script(type="text/javascript")
       | (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter47893775 = new Ya.Metrika2({ id:47893775, clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/tag.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks2"); 
     noscript

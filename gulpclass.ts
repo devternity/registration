@@ -44,7 +44,7 @@ export class Gulpfile {
   vendorStyles() {
     return gulp
       .src([
-        "./node_modules/material-design-lite/material.min.css"
+        "./node_modules/bulma/css/bulma.css"
        ])
       .pipe(concat("vendor.css"))
       .pipe(gulp.dest("dist"))
@@ -65,7 +65,6 @@ export class Gulpfile {
     return gulp
       .src([
         "./node_modules/es5-shim/es5-shim.min.js",
-        "./node_modules/material-design-lite/material.min.js",
         "./node_modules/classlist-polyfill/src/index.js",
        ])
       .pipe(concat("vendor.js"))

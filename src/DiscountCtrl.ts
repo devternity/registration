@@ -1,32 +1,31 @@
-import { notification } from './Notification'
-
 export class DiscountCtrl {
 
+    code: string
+    warn = false
+    oki = false
 
-    code: string;
+    static $inject = ['$rootScope']	
 
-    static $inject = ['$http', '$rootScope'];	
-
-    constructor(private $http, private $rootScope) {}
+    constructor(private $rootScope) {}
 	
     apply = () => {
-	    var url = "https://devternity-22e74.firebaseio.com/coupons/" + this.code + ".json"
-	    this.$http.get(url).then(_ => {
-            var discount = _.data
-            if (this.code.indexOf("_18") >= 0) {
-                discount = {
-                    code: this.code,
-                    mainDayAmount: "25",
-                    workshopAmount: "25"
-                }
-            }
-            if (discount) {
-                notification.show('✅ Congratulations! The entered discount code is valid.');
-                this.$rootScope.$emit("ValidDiscountApplied", discount);
-    		} else {
-                this.$rootScope.$emit("InvalidDiscountApplied", {});
-                notification.show('❌ The entered discount code is not valid.');
-	    }
-       });
+        let discounts = {
+            "SPONSORED": 100,
+            "_19": 10
+        }
+
+        let allCodes = Object.keys(discounts)
+
+        let enteredCode = this.code
+        let [matchedCode] = allCodes.filter(aCode => (enteredCode || "").indexOf(aCode) >= 0)
+        
+        this.warn = !matchedCode
+        this.oki = !!matchedCode
+
+        if (matchedCode) {
+            this.$rootScope.$emit("ValidDiscountApplied", { code: matchedCode, percentage: discounts[matchedCode] });
+        } else {
+            this.$rootScope.$emit("InvalidDiscountApplied", undefined);
+        }
 	}
 }

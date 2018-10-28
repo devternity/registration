@@ -5,6 +5,11 @@ export class Filters {
 		  	return new Truncated(txt, limit).toString();
 		  }
 		})
+		app.filter('join', function() {
+			return function(arr) {
+				return arr.join(', ')
+			}
+		})		
 	}
 }
 

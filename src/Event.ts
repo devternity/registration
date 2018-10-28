@@ -5,7 +5,7 @@ export class Event {
 	constructor(private $http) {}
 
 	latest() {
-    	return this.$http.get('https://devternity.com/js/event.js?purge').then(_ => {
+    	return this.$http.get('https://devternity.com/js/event.js').then(_ => {
       		return _.data[0];
     	});
 	}

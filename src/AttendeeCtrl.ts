@@ -1,12 +1,11 @@
-import {notification} from './Notification'
-
 export class AttendeeCtrl {
 
 	name: string
 	email: string
-	attendMain: boolean
-	addDisabled: boolean
 	workshop: any
+	ticket: any
+	addDisabled: boolean
+	cost: number
 
     static $inject = ['$rootScope'];	
 
@@ -16,46 +15,33 @@ export class AttendeeCtrl {
 	}
 
 	add() {
+		let tickets = [ 
+			this.ticket.includesMainDay ? "Main Day Pass" : undefined, 
+			this.workshop ? this.workshop.title : undefined 
+		].filter(Boolean)
+
     	this.$rootScope.$emit("AttendeeAdded", {
     		name: this.name,
-    		email: this.email,
-    		attendMain: this.attendMain,
-    		workshop: this.workshop
+			email: this.email,
+			cost: this.cost,
+			tickets: tickets
     	});	    		
     	this.reset();
     	this.onChange();
 	}
 
 	onChange() {
-		var attendanceNotSelected = !this.attendMain && !this.workshop;
-		this.addDisabled = !this.name || !this.email || attendanceNotSelected;
-
-		if (!this.attendMain) {
-			var element = document.querySelector(".mdl-checkbox-main-day");
-			element.classList.remove('is-checked')
-		} else {
-			var element = document.querySelector(".mdl-checkbox-main-day");
-			element.classList.add('is-checked')
-		}
-
-		if (!this.workshop) {
-			let elements = document.querySelectorAll(".workshop .mdl-radio");
-			for (var i = 0; i < elements.length; i++) {
-				elements[i].classList.remove('is-checked');
-			}			
-			if (elements.length) {
-				var element = document.querySelector(".workshop .mdl-radio[for='false']");				
-				element.classList.add('is-checked')			
-			}
-
-		}
+		let ticketTypeNotSelected = !this.ticket
+		let workshopNotSelected = this.ticket && this.ticket.includesWorkshop && !this.workshop
+		this.cost = this.ticket && this.ticket.price
+		this.addDisabled = !this.name || !this.email || ticketTypeNotSelected || workshopNotSelected
 	}
 
 	reset() {
-		this.attendMain = false
 		this.name = ''
 		this.email = ''
-		this.workshop = false
+		this.workshop = undefined
+		this.ticket = undefined
 	}
 
 }

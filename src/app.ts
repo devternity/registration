@@ -10,8 +10,6 @@ import {DiscountCtrl} from './DiscountCtrl'
 import {AttendeeCtrl} from "./AttendeeCtrl"
 import {Event} from './Event'
 
-import {notification} from './Notification'
-
 let app = module('app', ['ngCookies'])
 
 new Filters(app)
@@ -22,22 +20,26 @@ app.controller('AttendeeCtrl', AttendeeCtrl)
 app.controller('DiscountCtrl', DiscountCtrl);
 app.controller('Attendify', function($http, $cookies, $rootScope, Event) {
 
+	this.showWarning = false
+
 	Event.latest()
 		.then(latestEvent => {
 			let workshopsOnSale = latestEvent
 					.program
-					.filter(p => { return p.event == "workshops" })[0]
+					.filter(p => p.event == "workshops")[0]
 					.schedule
-					.filter(w => { return !w.sold_out })
-                    .concat({ title: "No Workshop Pass", product: false })
+					.filter(w => !w.sold_out )
 			this.workshops = workshopsOnSale;
-			this.event = latestEvent;			
+
+
+
+			this.ticketsOnSale = latestEvent.pricing.packages
+			this.event = latestEvent;
 		})
 		.catch(e => {
-			notification.show("❌ Sorry, something went wrong! Drop us an email to hello@devternity.com");
+			console.error(e)
+			this.showWarning = true
 		})
-	
-	this.step = 'BILLING';
 	
 	let self = this;
 	$rootScope.$on("ValidDiscountApplied", (event, data) => {
@@ -50,17 +52,8 @@ app.controller('Attendify', function($http, $cookies, $rootScope, Event) {
 	});
 
 	$rootScope.$on("AttendeeAdded", (event, attendee) => {
-        if (attendee.workshop) {
-            var workshopTitle = this.workshops
-                .filter(w => { return w.product == attendee.workshop })
-                .pop()
-                .title;
-            attendee['workshopTitle'] = workshopTitle;
-        }
-        
     	self.registration.attendees.push(attendee);
     	self.recalculate();
-    	notification.show("✅ Attendee has been added")
 	});	
 
     this.registration = {
@@ -78,14 +71,12 @@ app.controller('Attendify', function($http, $cookies, $rootScope, Event) {
     	this.recalculate();
     }
 
-    this.toBilling = () => {
-    	this.step = 'BILLING';
-    }
+    this.complete = () => {
 
-    this.toPayment = () => {
+		this.step = 'COMPLETE_CLICKED'
 
     	var firebaseApplication = {
-        referral: $cookies.get('referral'),
+        	referral: $cookies.get('referral'),
     		discountCode: this.promo ? this.promo.code : undefined,
     		paymentMethod: this.registration.paymentMethod,
     		name: this.registration.name,
@@ -107,45 +98,30 @@ app.controller('Attendify', function($http, $cookies, $rootScope, Event) {
     	}
 
         this.registration.attendees.forEach(attendee => {
-    		if (attendee.attendMain) {
-                firebaseApplication.tickets.push({
-                    holder: {
-                        name: attendee.name,
-                        email: attendee.email
-                    },                    
-                    id: UUID.generate(),
-                    event: "Main Day Pass",
-                    title: this.event.title,                    
-                    startsAt: moment(this.event.date_iso).format('dddd Do MMM YYYY'),
-                    startsAtHint: "Registration starts at 8:00",
-                    location: this.event.venue_name,
-                    locationHint: this.event.venue_address + ", " + this.event.city + ", " + this.event.country
-                })
-    		}
-    		if (attendee.workshop) {
+			attendee.tickets.forEach(ticket => {
     			firebaseApplication.tickets.push({
                     holder: {
                         name: attendee.name,
                         email: attendee.email
                     },                    
                     id: UUID.generate(),
-                    event: attendee.workshopTitle,
+                    event: ticket,
                     title: this.event.title, 
                     startsAt: moment(this.event.date_iso).add(1, 'days').format('dddd Do MMM YYYY'),
                     startsAtHint: "Registration starts at 8:00",
                     location: this.event.venue_name,
                     locationHint: this.event.venue_address + ", " + this.event.city + ", " + this.event.country
                 })
-    		}
+			})
     	});        
 
 		$http.post('https://devternity-22e74.firebaseio.com/applications.json', firebaseApplication)
 			.then(
 				response => {
-					this.step = "PAYMENT";
+					this.step = "REGISTERED"
 				},
 				error => {
-					notification.show("❌ Sorry, something went wrong! Drop us an email to hello@devternity.com")	
+					this.step = "REGISTRATION_FAILED"
 				},				
 			);
     }
@@ -157,31 +133,19 @@ app.controller('Attendify', function($http, $cookies, $rootScope, Event) {
         }
 
     	this.registration.attendees.forEach(attendee => {
-    		var cost = 0;
-    		var discount = 0;
-    		if (attendee.attendMain) {
-    			cost = cost + this.event.pricing.packages['Main Day Only'].price;
-    			if (this.promo && this.promo.mainDayAmount) {
-					discount = discount + parseInt(this.promo.mainDayAmount);
-    			}    			
-    		}
-    		if (attendee.workshop) {
-    			cost = cost + this.event.pricing.packages['Power Workshop Only'].price;
-    			if (this.promo && this.promo.workshopAmount) {
-					discount = discount + parseInt(this.promo.workshopAmount);
-    			}    			    			
-    		}
+			let cost = attendee.cost;
+			let discount = Math.floor(this.promo ? (cost * this.promo.percentage) / 100 : 0)
     		attendee['cost'] = cost;
     		attendee['discount'] = discount;
     	})
 	    	
     	this.subtotal = this.registration.attendees
-            .map(it => { return it.cost })
-            .reduce((a, b) => { return a + b })
+            .map(it => it.cost )
+            .reduce((a, b) => a + b )
 
     	this.discount = this.registration.attendees
-            .map(it => { return it.discount })
-            .reduce((a, b) => { return a + b })
+            .map(it => it.discount )
+            .reduce((a, b) => a + b )
 
     	var discountedTotal = this.subtotal - this.discount;
 
@@ -197,19 +161,6 @@ app.controller('Attendify', function($http, $cookies, $rootScope, Event) {
     this.dropAttendee = row => {
     	this.registration.attendees.splice(row, 1);
     	this.recalculate();
-    	notification.show("✅ Attendee has been removed")	
     }
 
-    this.toTickets = () => {
-    	this.noName = !this.registration.name;
-    	this.noEmail = !this.registration.email;
-    	this.noCompany = this.registration.companyBilling && !this.registration.legal.name;
-    	this.noVat = this.registration.companyBilling && !this.registration.legal.vat;
-    	this.noAddress = this.registration.companyBilling && !this.registration.legal.address;
-
-    	if (this.noName || this.noEmail || this.noCompany || this.noVat || this.noAddress) {
-    		return;
-    	}
-    	this.step = 'TICKETS';
-    }
 });
