@@ -99,6 +99,8 @@ app.controller('Attendify', function($http, $cookies, $rootScope, Event) {
 
         this.registration.attendees.forEach(attendee => {
 			attendee.tickets.forEach(ticket => {
+    			let dayOffset = ticket.indexOf("Main") >= 0 ? 0 : 1
+    			let startsAt = moment(this.event.date_iso).add(dayOffset, 'days')
     			firebaseApplication.tickets.push({
                     holder: {
                         name: attendee.name,
@@ -107,7 +109,7 @@ app.controller('Attendify', function($http, $cookies, $rootScope, Event) {
                     id: UUID.generate(),
                     event: ticket,
                     title: this.event.title, 
-                    startsAt: moment(this.event.date_iso).add(1, 'days').format('dddd Do MMM YYYY'),
+                    startsAt: startsAt.format('dddd Do MMM YYYY'),
                     startsAtHint: "Registration starts at 8:00",
                     location: this.event.venue_name,
                     locationHint: this.event.venue_address + ", " + this.event.city + ", " + this.event.country
