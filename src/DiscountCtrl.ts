@@ -11,7 +11,8 @@ export class DiscountCtrl {
     apply = () => {
         let discounts = {
             "SPONSORED": 100,
-            "_19": 10
+            "_LEVELUP": 10,
+            "_COFFEE": 4
         }
 
         let allCodes = Object.keys(discounts)
