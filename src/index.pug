@@ -17,7 +17,7 @@ html.no-js(lang='', ng-app='app')
     .hero.is-primary.is-bold
       .hero-body
         .container
-          h1.title {{main.event.theme}} Registration
+          h1.title.is-size-5-mobile {{main.event.theme}} Registration
     section.section.has-background-light
       .container
         article.message.is-danger(ng-show="main.showWarning")
@@ -26,7 +26,7 @@ html.no-js(lang='', ng-app='app')
         h4.title.is-3 Billing
         form(novalidate='')
             .field.has-text-right
-              input.is-checkradio.is-medium#companyPayment(type='checkbox', ng-model='main.registration.companyBilling', ng-change='main.wipeCompanyBillingInfo()')
+              input.is-checkradio#companyPayment(type='checkbox', ng-model='main.registration.companyBilling', ng-change='main.wipeCompanyBillingInfo()')
               label.checkbox(for='companyPayment') Bill to a company
             .field.is-horizontal(ng-show='main.registration.companyBilling')
               .field-label.is-normal
@@ -71,12 +71,13 @@ html.no-js(lang='', ng-app='app')
                 .field
                   input.is-checkradio#payWithBankTransfer(ng-model='main.registration.paymentMethod', type='radio', name='options', value='BANK', ng-change='main.changePaymentMethod()')
                   label(for='payWithBankTransfer') Bank transfer
-                .field 
-                  input.is-checkradio#payWithCard(ng-model='main.registration.paymentMethod', type='radio', name='options', value='VISA', ng-change='main.changePaymentMethod()')
-                  label(for='payWithCard') Visa/Mastercard (~3% fee for corporate cards)
                 .field
                   input.is-checkradio#payWithBitcoin(ng-model='main.registration.paymentMethod', type='radio', name='options', value='BTC', ng-change='main.changePaymentMethod()')
-                  label(for='payWithBitcoin') Bitcoin  
+                  label(for='payWithBitcoin') Bitcoin 
+                .field 
+                  input.is-checkradio#payWithCard(ng-model='main.registration.paymentMethod', type='radio', name='options', value='VISA', ng-change='main.changePaymentMethod()')
+                  label(for='payWithCard') Visa/Mastercard
+                  p.help ~3% fee for corporate cards                  
 
     section.section.has-background-light
       .container
@@ -121,7 +122,7 @@ html.no-js(lang='', ng-app='app')
                   i.fas.fa-plus
               
             .final(ng-show="main.registration.attendees.length")
-              table.table.is-striped.is-fullwidth.has-background-light
+              table.table.is-striped.is-fullwidth.is-size-7-mobile.has-background-light
                 thead
                   th #
                   th Name
@@ -140,19 +141,17 @@ html.no-js(lang='', ng-app='app')
                       span {{attendee.cost}}
                     td
                       a.delete(ng-click='main.dropAttendee($index)')
-              .columns
-                .column(ng-controller='DiscountCtrl as discount')
-                  .is-pulled-right
-                    .field.has-addons.is-pulled-right
-                      .control
-                        input.input(ng-model='discount.code' type='text' ng-class='{"is-primary": discount.oki, "is-danger": discount.warn}' placeholder="Discount code")
-                      .control
-                        a.button.is-primary(ng-disabled='!discount.code', ng-click='discount.apply()') Apply
-                    p.help.is-danger(ng-show='discount.warn') Ooops! Wrong code.
-                    p.help.is-primary(ng-show='discount.oki') Wohoo! The discount has been applied!
+              .columns.is-mobile
+                .column.is-4-desktop.is-offset-8-desktop(ng-controller='DiscountCtrl as discount')
+                  .field.has-addons.is-pulled-right
+                    .control
+                      input.input(ng-model='discount.code' type='text' ng-class='{"is-primary": discount.oki, "is-danger": discount.warn}' placeholder="Discount code")
+                    .control
+                      a.button.is-primary(ng-disabled='!discount.code', ng-click='discount.apply()') Apply
+                  p.help.is-danger(ng-show='discount.warn') Ooops! Wrong code.
               .columns
                 .column.is-12
-                  nav.level
+                  nav.level.is-mobile
                     .level-item.has-text-centered(ng-show="main.subtotal != main.total")
                       .div
                         p.heading Subtotal
