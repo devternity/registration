@@ -44,7 +44,8 @@ export class Gulpfile {
   vendorStyles() {
     return gulp
       .src([
-        "./node_modules/bulma/css/bulma.css"
+        "./node_modules/bulma/css/bulma.css",
+        "./node_modules/bulma-checkradio/dist/css/bulma-checkradio.min.css"
        ])
       .pipe(concat("vendor.css"))
       .pipe(gulp.dest("dist"))
