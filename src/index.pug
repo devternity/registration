@@ -22,7 +22,6 @@ html.no-js(lang='', ng-app='app')
       .container
         article.message.is-danger(ng-show="main.showWarning")
           .message-body Sorry, something went wrong with this form. In order to register, please send an email to hello@devternity.com.
-        
         h4.title.is-3 Billing
         form(novalidate='')
             .field.has-text-right
@@ -70,14 +69,14 @@ html.no-js(lang='', ng-app='app')
               .field-body.is-block
                 .field
                   input.is-checkradio#payWithBankTransfer(ng-model='main.registration.paymentMethod', type='radio', name='options', value='BANK', ng-change='main.changePaymentMethod()')
-                  label(for='payWithBankTransfer') Bank transfer
+                  label(for='payWithBankTransfer') Bank transfer (pro-forma invoice)
                 .field
                   input.is-checkradio#payWithBitcoin(ng-model='main.registration.paymentMethod', type='radio', name='options', value='BTC', ng-change='main.changePaymentMethod()')
                   label(for='payWithBitcoin') Bitcoin 
                 .field 
                   input.is-checkradio#payWithCard(ng-model='main.registration.paymentMethod', type='radio', name='options', value='VISA', ng-change='main.changePaymentMethod()')
                   label(for='payWithCard') Visa/Mastercard
-                  p.help ~3% fee for corporate cards                  
+                  p.help ~3% fee for corporate cards    
 
     section.section.has-background-light
       .container

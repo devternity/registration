@@ -18,17 +18,19 @@ app.service('Event', Event)
 
 app.controller('AttendeeCtrl', AttendeeCtrl)
 app.controller('DiscountCtrl', DiscountCtrl);
-app.controller('Attendify', function($http, $cookies, $rootScope, Event) {
+app.controller('Attendify', function($http, $cookies, $rootScope, $location, Event) {
 
 	this.showWarning = false
 
+	let secret = $location.absUrl().indexOf("secretLink") > 0;
+	
 	Event.latest()
 		.then(latestEvent => {
 			let workshopsOnSale = latestEvent
 					.program
 					.filter(p => p.event == "workshops")[0]
 					.schedule
-					.filter(w => !w.sold_out )
+					.filter(w => secret || !w.sold_out )
 			this.workshops = workshopsOnSale;
 
 
