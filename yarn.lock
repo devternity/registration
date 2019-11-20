@@ -76,9 +76,10 @@ angular-cookies@^1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/angular-cookies/-/angular-cookies-1.7.0.tgz#d0d0e5feb302e0ad202a9be5fa14b52646a155b1"
 
-angular@1.6.7:
-  version "1.6.7"
-  resolved "https://registry.yarnpkg.com/angular/-/angular-1.6.7.tgz#0f89837dae1776b01ccb1fa2096db0d9373d9897"
+angular@1.7.9:
+  version "1.7.9"
+  resolved "https://registry.yarnpkg.com/angular/-/angular-1.7.9.tgz#e52616e8701c17724c3c238cfe4f9446fd570bc4"
+  integrity sha512-5se7ZpcOtu0MBFlzGv5dsM1quQDoDeUTwZrWjGtTNA7O88cD8TEk5IEKCTDa3uECV9XnvKREVUr7du1ACiWGFQ==
 
 ansi-cyan@^0.1.1:
   version "0.1.1"
