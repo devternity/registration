@@ -5,7 +5,8 @@ export class Event {
 	constructor(private $http) {}
 
 	latest() {
-    	return this.$http.get('https://devternity.com/js/event.js').then(_ => {
+			const unique = Math.round(Math.random() * 10);
+    	return this.$http.get('https://devternity.com/js/event.js?=' + unique).then(_ => {
       		return _.data[0];
     	});
 	}
