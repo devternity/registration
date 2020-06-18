@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "angular": "1.6.7",
+    "angular": "1.8.0",
     "angular-cookies": "^1.7.0",
     "bulma": "^0.7.2",
     "bulma-checkradio": "^1.1.1",
