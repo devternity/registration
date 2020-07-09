@@ -14,10 +14,11 @@ html.no-js(lang='', ng-app='app')
     script(src='vendor.js' inline)      
     script(src='app.js' inline)
   body(ng-controller='Attendify as main')
-    .hero.is-primary.is-bold
+    .hero.is-medium.is-dark
       .hero-body
         .container
           h1.title.is-size-5-mobile {{main.event.theme}} Registration
+          h2.subtitle After registration, you'll receive a pro-forma invoice with payment details.
     section.section.has-background-light
       .container
         article.message.is-danger(ng-show="main.showWarning")
@@ -41,7 +42,7 @@ html.no-js(lang='', ng-app='app')
                 .field                
                   .control
                     input#vatNo.input.is-medium(ng-model='main.registration.legal.vat' type='text')
-                    p.help if you don't have VAT, provide company identification number
+                    p.help If you don't have VAT, provide company identification number
             .field.is-horizontal(ng-show='main.registration.companyBilling')
               .field-label.is-normal            
                 label.label(for='companyAddress') Address
@@ -69,7 +70,7 @@ html.no-js(lang='', ng-app='app')
               .field-body.is-block
                 .field
                   input.is-checkradio#payWithBankTransfer(ng-model='main.registration.paymentMethod', type='radio', name='options', value='BANK', ng-change='main.changePaymentMethod()')
-                  label(for='payWithBankTransfer') Bank transfer (pro-forma invoice)
+                  label(for='payWithBankTransfer') Bank transfer
                 .field
                   input.is-checkradio#payWithBitcoin(ng-model='main.registration.paymentMethod', type='radio', name='options', value='BTC', ng-change='main.changePaymentMethod()')
                   label(for='payWithBitcoin') Bitcoin 
@@ -170,7 +171,7 @@ html.no-js(lang='', ng-app='app')
                         p.title €{{main.total}}
               .columns
                 .column.has-text-centered
-                  p.is-size-7 * Additional 20% VAT applies to non-VAT tax payers and companies encorporated in the Republic of Estonia.
+                  p.is-size-7 * Additional 20% VAT applies to non-VAT taxpayers and companies incorporated in the Republic of Estonia.
               .columns
                 .column.has-text-centered
                   .field
