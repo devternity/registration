@@ -178,7 +178,7 @@ html.no-js(lang='', ng-app='app')
                     button.button.is-primary.is-large(ng-disabled="!(main.registration.name && main.registration.email && (!main.registration.companyBilling || (main.registration.legal.name && main.registration.legal.vat && main.registration.legal.address)))" ng-click='main.complete()' ng-class='{"is-loading": main.step == "COMPLETE_CLICKED"}' ng-show='main.step != "REGISTERED"') Complete
                   p.help.is-danger(ng-show='main.step == "REGISTRATION_FAILED"') Sorry, something went wrong! In order to register, please send an email to hello@devternity.com.
                   article.message.is-primary(ng-show='main.step == "REGISTERED"')
-                    .message-body Great job! We will send payment information to your email ({{main.registration.email}}) within the next 24 hours. After the payment, you will receive the tickets.
+                    .message-body Well done! We will send payment information to your email ({{main.registration.email}}) within the next 24 hours.
 
     script(type="text/javascript")
       | (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter47893775 = new Ya.Metrika2({ id:47893775, clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/tag.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks2"); 
