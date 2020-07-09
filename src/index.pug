@@ -41,8 +41,8 @@ html.no-js(lang='', ng-app='app')
               .field-body
                 .field                
                   .control
-                    input#vatNo.input.is-medium(ng-model='main.registration.legal.vat' type='text')
-                    p.help If you don't have VAT, provide company identification number
+                    input#vatNo.input.is-medium(ng-model='main.registration.legal.vat' type='text' placeholder='LU26375245')
+                    p.help If you don't have a VAT number, provide company identification number
             .field.is-horizontal(ng-show='main.registration.companyBilling')
               .field-label.is-normal            
                 label.label(for='companyAddress') Address
