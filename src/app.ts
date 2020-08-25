@@ -119,7 +119,7 @@ app.controller('Attendify', function($http, $cookies, $rootScope, $location, Eve
 			})
     	});        
 
-		$http.post('https://api.devternity.com/applications', firebaseApplication)
+		$http.post('https://api2.devternity.com/applications', firebaseApplication)
 			.then(
 				response => {
 					this.step = "REGISTERED"
