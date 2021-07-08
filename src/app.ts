@@ -154,9 +154,9 @@ app.controller('Attendify', function($http, $cookies, $rootScope, $location, Eve
     	var discountedTotal = this.subtotal - this.discount;
 
 		var fee = 0;
-		if (this.registration.paymentMethod == "VISA") {
-			fee = Math.round((discountedTotal * 3) / 100)
-		}
+		// if (this.registration.paymentMethod == "VISA") {
+			// fee = Math.round((discountedTotal * 3) / 100)
+		// }
 
 		this.fee = fee;
     	this.total = discountedTotal + fee;
