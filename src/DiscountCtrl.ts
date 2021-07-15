@@ -12,6 +12,7 @@ export class DiscountCtrl {
         let discounts = {
             "SPONSORED": 100,
 	    "DISC0": 17,
+            "_ROCKS": 10,
             "_LEVELUP": 10,
             "_COFFEE": 4
         }
