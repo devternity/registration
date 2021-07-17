@@ -11,9 +11,10 @@ export class DiscountCtrl {
     apply = () => {
         let discounts = {
             "SPONSORED": 100,
-	    "DISC0": 17,
             "_ROCKS": 10,
             "_LEVELUP": 10,
+            "AWSM_": 10,
+            "_TEAM": 10,
             "_COFFEE": 4
         }
 
