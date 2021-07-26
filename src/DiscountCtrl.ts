@@ -15,6 +15,7 @@ export class DiscountCtrl {
             "_LEVELUP": 10,
             "AWSM_": 10,
             "_TEAM": 10,
+            "_MEMBERS": 10,
             "_COFFEE": 4,
 	    "_21": 10		
         }
