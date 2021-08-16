@@ -17,7 +17,8 @@ export class DiscountCtrl {
             "_TEAM": 10,
             "_MEMBERS": 10,
             "_COFFEE": 4,
-	    "_21": 10		
+            "_21": 10,
+            "10_NOW": 10
         }
 
         let allCodes = Object.keys(discounts)
