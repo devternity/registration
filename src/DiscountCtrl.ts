@@ -30,7 +30,7 @@ export class DiscountCtrl {
         this.oki = !!matchedCode
 
         if (matchedCode) {
-            this.$rootScope.$emit("ValidDiscountApplied", { code: matchedCode, percentage: discounts[matchedCode] });
+            this.$rootScope.$emit("ValidDiscountApplied", { code: enteredCode, percentage: discounts[matchedCode] });
         } else {
             this.$rootScope.$emit("InvalidDiscountApplied", undefined);
         }
