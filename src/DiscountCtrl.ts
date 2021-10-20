@@ -13,6 +13,7 @@ export class DiscountCtrl {
             "SPONSORED": 100,
             "_ROCKS": 10,
             "_LEVELUP": 10,
+            "_GURU": 10,
             "AWSM_": 10,
             "_TEAM": 10,
             "_MEMBERS": 10,
