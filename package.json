@@ -10,7 +10,7 @@
     "bulma-checkradio": "^1.1.1",
     "classlist-polyfill": "^1.2.0",
     "es5-shim": "^4.5.10",
-    "moment": "^2.21.0",
+    "moment": "^2.29.2",
     "uuidjs": "^4.0.3"
   },
   "scripts": {
