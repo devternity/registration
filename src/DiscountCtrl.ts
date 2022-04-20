@@ -17,10 +17,8 @@ export class DiscountCtrl {
             "MEGA_": 20,
             "AWSM_": 10,
             "_TEAM": 10,
-            "_50OFF": 50,
             "_MEMBERS": 10,
-            "_COFFEE": 4,
-            "_21": 10,
+            "_COFFEE": 5,
             "10_NOW": 10
         }
 
