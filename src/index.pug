@@ -117,6 +117,7 @@ html.no-js(lang='', ng-app='app')
               button.button.is-primary(ng-disabled='attendee.addDisabled', ng-click='attendee.add()')
                 span.icon
                   i.fas.fa-plus
+                span Add attendee
               
             .final(ng-show="main.registration.attendees.length")
               table.table.is-striped.is-fullwidth.is-size-7-mobile.has-background-light
@@ -142,7 +143,7 @@ html.no-js(lang='', ng-app='app')
                 .column.is-4-desktop.is-offset-8-desktop(ng-controller='DiscountCtrl as discount')
                   .field.has-addons.is-pulled-right
                     .control
-                      input.input(ng-model='discount.code' type='text' ng-class='{"is-primary": discount.oki, "is-danger": discount.warn}' placeholder="Discount code")
+                      input.input(ng-model='discount.code' type='text' ng-class='{"is-primary": discount.oki, "is-danger": discount.warn}' placeholder="Promo code")
                     .control
                       a.button.is-primary(ng-disabled='!discount.code', ng-click='discount.apply()') Apply
                   p.help.is-danger(ng-show='discount.warn') Ooops! Wrong code.
