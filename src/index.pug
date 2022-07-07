@@ -168,8 +168,20 @@ html.no-js(lang='', ng-app='app')
                         p.heading Total
                         p.title €{{main.total}}
               .columns
-                .column.has-text-centered
-                  p.is-size-7 * Additional 20% VAT applies to non-VAT taxpayers and companies incorporated in the Republic of Estonia.
+                .column
+                  .notification.is-warning.is-light Additional 20% VAT applies to non-VAT taxpayers and companies incorporated in the Republic of Estonia.
+                  .notification.is-danger.is-light
+                    | Each conference ticket is licenced to a single individual. As the holder of the ticket, you cannot:
+                    br
+                    |       &#x274C; Share your access with any other individual(s).
+                    br
+                    |       &#x274C; Let other individuals access/watch a conference using your personal license, unless they have purchased a ticket.
+                    br
+                    |       &#x1F46E; DevTernity team is strictly policing legitimate and fair usage both manually and automatically.
+                    br
+                    |       &#x1F46E; If you are found to be in violation of the license, your ticket will be terminated.
+                    br
+                    |       &#x1F46E; DevTernity reserves the right to pursue legal remedies for any unauthorized use of the ticket.
               .columns
                 .column.has-text-centered
                   .field
