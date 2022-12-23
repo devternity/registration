@@ -14,7 +14,8 @@
     "uuidjs": "^4.0.3"
   },
   "scripts": {
-    "dev": "npx -p node@8 -- gulp"
+    "dev": "npx -p node@8 -- gulp",
+    "build": "gulp compile" 
   },
   "devDependencies": {
     "browserify": "^14.5.0",
