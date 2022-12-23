@@ -81,6 +81,7 @@ app.controller('Attendify', function($http, $cookies, $rootScope, $location, Eve
         	referral: $cookies.get('referral'),
     		discountCode: this.promo ? this.promo.code : undefined,
     		paymentMethod: this.registration.paymentMethod,
+    		po: this.registration.po,
     		name: this.registration.name,
     		email: this.registration.email,
     		product: this.event.codename,

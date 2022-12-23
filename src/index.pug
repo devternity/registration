@@ -50,6 +50,13 @@ html.no-js(lang='', ng-app='app')
                 .field              
                   .control
                     input#companyAddress.input.is-medium(ng-model='main.registration.legal.address' type='text')
+            .field.is-horizontal(ng-show='main.registration.companyBilling')
+              .field-label.is-normal
+                label.label(for='po') PO number (optional)
+              .field-body
+                .field
+                  .control
+                    input#po.input.is-medium(ng-model='main.registration.po', type='text')
             .field.is-horizontal
               .field-label.is-normal            
                 label.label(for='yourName') Your name
@@ -59,7 +66,7 @@ html.no-js(lang='', ng-app='app')
                     input#yourName.input.is-medium(ng-model='main.registration.name' type='text')
             .field.is-horizontal
               .field-label.is-normal            
-                label.label(for='yourEmail') Your email (for invoicing)
+                label.label(for='yourEmail') Billing email
               .field-body
                 .field              
                   .control
@@ -76,7 +83,7 @@ html.no-js(lang='', ng-app='app')
                   label(for='payWithBitcoin') Bitcoin 
                 .field 
                   input.is-checkradio#payWithCard(ng-model='main.registration.paymentMethod', type='radio', name='options', value='VISA', ng-change='main.changePaymentMethod()')
-                  label(for='payWithCard') Amex/Visa/Mastercard
+                  label(for='payWithCard') Visa/Mastercard/Amex
 
     section.section.has-background-light
       .container
@@ -170,18 +177,6 @@ html.no-js(lang='', ng-app='app')
               .columns
                 .column
                   .notification.is-warning.is-light Additional 20% VAT applies to non-VAT taxpayers and companies incorporated in the Republic of Estonia.
-                  .notification.is-danger.is-light
-                    | Each conference ticket is licenced to a single individual. As the holder of the ticket, you cannot:
-                    br
-                    |       &#x274C; Share your access with any other individual(s).
-                    br
-                    |       &#x274C; Let other individuals access/watch a conference using your personal license, unless they have purchased a ticket.
-                    br
-                    |       &#x1F46E; DevTernity team is strictly policing legitimate and fair usage both manually and automatically.
-                    br
-                    |       &#x1F46E; If you are found to be in violation of the license, your ticket will be terminated.
-                    br
-                    |       &#x1F46E; DevTernity reserves the right to pursue legal remedies for any unauthorized use of the ticket.
               .columns
                 .column.has-text-centered
                   .field
